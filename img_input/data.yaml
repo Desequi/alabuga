@@ -1,0 +1,5 @@
+train: img_input/train
+val: img_input/val
+
+nc: 1
+names: ['car']
