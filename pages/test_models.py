@@ -1,10 +1,13 @@
 import streamlit as st
 import os
+import time
 from ultralytics import YOLO
 import str_task4
 
 st.set_page_config(layout='wide', page_title='Алабуга - 4')
 st.header('Тест обученных моделей')
+st.write('Сравнивались различные модели, обученные на аугментированных исходных данных - 414 изображениях.'
+         'лучше всего по характеристикам показали себя yolov5n(30n5-cars.pt) и yolov8n(30n-cars_01.pt).')
 test_dir = 'data.yaml'
 col1, col2, col3 = st.columns(3)
 model1 = col1.selectbox(
@@ -30,6 +33,7 @@ col1, col2, col3 = st.columns(3)
 
 
 def print_mod(col, model):
+    start_time = time.time()
     model_1 = YOLO(str_task4.cl_mod+'/'+model)
     result = model_1.val(data=test_dir,imgsz=640,batch=16,conf=0.1,iou=0.6,device='cpu',save=False)
     col.subheader(model)
@@ -46,6 +50,8 @@ def print_mod(col, model):
     col.write(k[3])
     # print(result)
     result.confusion_matrix.plot(normalize=False, save_dir='img_input', names=(), on_plot=None)
+    col.write('Время выполнения, сек')
+    col.write(time.time() - start_time)
     col.write('Confusion matrix')
     col.image('img_input/confusion_matrix.png')
 
