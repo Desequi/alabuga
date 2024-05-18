@@ -110,7 +110,7 @@ if img_det is not None:
         format_func=lambda s: s.upper())
     detection_model = AutoDetectionModel.from_pretrained(
         model_type='yolov8',
-        model_path='models/' + model,
+        model_path=str_task4.cl_mod + '/' + model,
         confidence_threshold=0.01,
         device="cpu",  # or 'cuda:0'
     )
