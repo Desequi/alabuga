@@ -80,6 +80,11 @@ def change_brightness(img, value=30):
     final_hsv = cv2.merge((h, s, v))
     img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
     return img
+def rotate_image(image, angle):
+    image_center = tuple(np.array(image.shape[1::-1]) / 2)
+    rot_mat = cv2.getRotationMatrix2D(image_center, angle, 1.0)
+    result = cv2.warpAffine(image, rot_mat, image.shape[1::-1], flags=cv2.INTER_LINEAR)
+    return result
 
 if img_det is not None:
     bytes_data = img_det.getvalue()
@@ -91,7 +96,8 @@ if img_det is not None:
     col1,col2,col3 = st.columns(3)
     col1.write('Изменение изображения')
     br = col1.slider('Изменение яркости', -100, 100, 0)
-    kontr = col1.checkbox('Контрастировать', False, help='Повысить контрастность')
+    angle = col1.slider('Поворот изображения', -180, 180, 0)
+    kontr = col2.checkbox('Контрастировать', False, help='Повысить контрастность')
 
     col2.write('Зашумление изображения')
     gs = col2.checkbox('gauss', False)
@@ -140,6 +146,7 @@ if img_det is not None:
     #     g = clahe.apply(g)
     #     r = clahe.apply(r)
     #     img = cv2.merge([b, g, r])
+    img = rotate_image(img, angle)
     st.write(' ')
     col1, col2, col3 = st.columns(3)
     col1.write('Оригинальное')

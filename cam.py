@@ -82,7 +82,7 @@ def yolo_pred():
     yolo_res = []
     detection_model = AutoDetectionModel.from_pretrained(
         model_type='yolov8',
-        model_path='models/300n-cars_03.pt',
+        model_path='models/30n-cars_01.pt',
         confidence_threshold=0.01,
         device="cpu",  # or 'cuda:0'
     )

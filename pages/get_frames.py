@@ -48,11 +48,12 @@ try:
 
 
     col1,col2,col3 = st.columns(3)
-
-    if col1.button("Запись видео"):
+    col2.write(' ')
+    name_res = col1.text_input('Введите путь для записи видео', 'result/' + cl + '.avi')
+    if col2.button("Запись видео"):
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        name_res = 'result' + cl + '.avi'
-        vid_res = cv2.VideoWriter('result/'+cl_name+'.avi', fourcc, 24, (frame.shape[0], frame.shape[1]))
+        # name_res = 'result' + cl + '.avi'
+        vid_res = cv2.VideoWriter(name_res, fourcc, 24, (frame.shape[0], frame.shape[1]))
         k = 0
         for vid in cl_rep:
             cap = cv2.VideoCapture(cl+'/'+vid)
@@ -66,12 +67,17 @@ try:
             k +=1
         vid_res.release()
 
-        col1.success("Видео сохранено")
-
+        col3.success("Видео "+name_res+" сохранено")
+    col1, col2, col3 = st.columns(3)
+    col2.write(' ')
+    name_res2 = col1.text_input('Введите путь для записи кадров', 'result/frames')
     if col2.button("Запись кадров"):
         k = 0
-        path = os.path.join('result\\frames', cl_name)
-        os.mkdir(path)
+        path = os.path.join(name_res2, cl_name)
+        try:
+            os.mkdir(path)
+        except:
+            print('Cant create folder')
         for vid in cl_rep:
             cap = cv2.VideoCapture(cl+'/'+vid)
             cap.set(cv2.CAP_PROP_POS_FRAMES, start[k])
@@ -79,26 +85,29 @@ try:
                 ok, frame = cap.read()
 
                 # vid_res.write(frame)
-                cv2.imwrite(path+'\\'+vid+'_'+str(i)+'.jpg',frame)
+                cv2.imwrite(path+'\\'+vid[:-4]+'_'+str(i)+'.jpg',frame)
                 # st.write(path+'\\'+vid+'_'+str(i)+'.jpg')
 
             k +=1
 
 
-        col2.success("Кадры сохранены в " + 'result/frames/'+cl_name)
-
-    if col3.button("Запись видео из кадров"):
-        kadr_ = os.listdir('result/frames/'+cl_name)
+        col3.success("Кадры сохранены в " + path)
+    col1, col2, col3 = st.columns(3)
+    col2.write(' ')
+    name_res3 = col1.text_input('Введите путь до набора кадров', 'result/frames')
+    # name_res4 = col3.text_input('Введите путь для записи видео', 'result/result.avi')
+    if col2.button("Запись видео из кадров"):
+        kadr_ = os.listdir(name_res3)
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        name_res = 'result' + cl + '.avi'
-        vid_res = cv2.VideoWriter('result/' + cl_name + '_from_frames.avi', fourcc, 24, (frame.shape[0], frame.shape[1]))
+        # name_res = 'result' + cl + '.avi'
+        vid_res = cv2.VideoWriter(name_res3+'/' + cl_name + '_from_frames.avi', fourcc, 24, (frame.shape[0], frame.shape[1]))
         for kadr in kadr_:
-                frame = cv2.imread('result/frames/'+cl_name+'/'+kadr)
+                frame = cv2.imread(name_res3+'/'+kadr)
                 vid_res.write(frame)
 
         vid_res.release()
 
-        col3.success("Кадры сохранены в " + cl_name + '_from_frames.avi')
+        col3.success("Кадры сохранены в "+ name_res3+'/' + cl_name + '_from_frames.avi')
 except:
     st.error('Видео не найдены')
 

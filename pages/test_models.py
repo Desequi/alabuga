@@ -29,7 +29,7 @@ col1, col2, col3 = st.columns(3)
 def print_mod(col, model):
     model_1 = YOLO(str_task4.cl_mod+'/'+model)
     result = model_1.val(data=test_dir,imgsz=640,batch=16,conf=0.1,iou=0.6,device='cpu',save=False)
-    col.title(model)
+    col.subheader(model)
     col.write('Fitness')
     col.write(result.fitness)
     k = result.mean_results()
