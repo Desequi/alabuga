@@ -12,10 +12,10 @@ def video_():
     close_ = False
     key_yolo = False
     window_name = 'Alabuga'
-    cv2.namedWindow(window_name, cv2.WND_PROP_FULLSCREEN)
-    screen = screeninfo.get_monitors()[0]
-    cv2.moveWindow(window_name, screen.x - 1, screen.y - 1)
-    cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+    # cv2.namedWindow(window_name, cv2.WND_PROP_FULLSCREEN)
+    # screen = screeninfo.get_monitors()[0]
+    # cv2.moveWindow(window_name, screen.x - 1, screen.y - 1)
+    # cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
     while True:
         if vid_:
@@ -38,9 +38,12 @@ def video_():
                         cv2.putText(frame_out, label, (p1[0], p1[1] - 20),
                                     cv2.FONT_HERSHEY_SIMPLEX, 0.5,
                                     (0, 255, 0), 2, cv2.LINE_AA)
-
-            cv2.putText(frame_out, 'Y - CNN (yolo)', (5, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
-                        (0, 255, 0), 2, cv2.LINE_AA)
+            if key_yolo:
+                cv2.putText(frame_out, 'Y - CNN (yolo)', (5, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                            (0, 255, 0), 2, cv2.LINE_AA)
+            else:
+                cv2.putText(frame_out, 'Y - CNN (yolo)', (5, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                            (0, 0, 255), 2, cv2.LINE_AA)
             cv2.putText(frame_out, 'Esc - quit', (5, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
                         (0, 255, 0), 2, cv2.LINE_AA)
 
@@ -76,6 +79,7 @@ def in_vid():
 
 def yolo_pred():
     global yolo_res
+    yolo_res = []
     detection_model = AutoDetectionModel.from_pretrained(
         model_type='yolov8',
         model_path='models/300n-cars_03.pt',
@@ -101,6 +105,7 @@ def yolo_pred():
             )
             time.sleep(1 / 40)
             yolo_res = result.object_prediction_list.copy()
+            # print (yolo_res)
 
 
 if __name__ == "__main__":
