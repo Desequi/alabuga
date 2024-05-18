@@ -9,21 +9,21 @@ test_dir = 'data.yaml'
 model1 = st.sidebar.selectbox(
     'Выберите модель 1',
     os.listdir(str_task4.cl_mod),
-    index=1,
+    index=None,
     format_func=lambda s: s.upper())
 
 model2 = st.sidebar.selectbox(
     'Выберите модель 2',
     os.listdir(str_task4.cl_mod),
-    index=1,
+    index=None,
     format_func=lambda s: s.upper())
 
 model3 = st.sidebar.selectbox(
     'Выберите модель 3',
     os.listdir(str_task4.cl_mod),
-    index=1,
+    index=None,
     format_func=lambda s: s.upper())
-
+print(model1)
 col1, col2, col3 = st.columns(3)
 
 def print_mod(col, model):
@@ -46,9 +46,12 @@ def print_mod(col, model):
     col.write('Confusion matrix')
     col.image('img_input/confusion_matrix.png')
 
-print_mod(col1, model1)
-print_mod(col2, model2)
-print_mod(col3, model3)
+if model1!=None:
+    print_mod(col1, model1)
+if model2!=None:
+    print_mod(col2, model2)
+if model3!=None:
+    print_mod(col3, model3)
 
 
 
