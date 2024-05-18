@@ -29,7 +29,7 @@ cl = st.sidebar.text_input('введите путь к видео', 'vid_input/1
 model = st.sidebar.selectbox(
     'Выберите модель',
     os.listdir(str_task4.cl_mod),
-    index=1,
+    index=None,
     format_func=lambda s: s.upper())
 name_res = cl[:len(cl)-4]
 @st.cache_data

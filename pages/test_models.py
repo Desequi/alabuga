@@ -6,25 +6,28 @@ import str_task4
 st.set_page_config(layout='wide', page_title='Алабуга - 4')
 st.header('Тест обученных моделей')
 test_dir = 'data.yaml'
-model1 = st.sidebar.selectbox(
+col1, col2, col3 = st.columns(3)
+model1 = col1.selectbox(
     'Выберите модель 1',
     os.listdir(str_task4.cl_mod),
     index=None,
     format_func=lambda s: s.upper())
 
-model2 = st.sidebar.selectbox(
+model2 = col2.selectbox(
     'Выберите модель 2',
     os.listdir(str_task4.cl_mod),
     index=None,
     format_func=lambda s: s.upper())
 
-model3 = st.sidebar.selectbox(
+model3 = col3.selectbox(
     'Выберите модель 3',
     os.listdir(str_task4.cl_mod),
     index=None,
     format_func=lambda s: s.upper())
-print(model1)
+# print(model1)
 col1, col2, col3 = st.columns(3)
+
+
 
 def print_mod(col, model):
     model_1 = YOLO(str_task4.cl_mod+'/'+model)

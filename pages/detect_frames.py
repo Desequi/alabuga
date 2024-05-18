@@ -14,7 +14,7 @@ cl_frm = os.listdir(cl)
 model = st.sidebar.selectbox(
     'Выберите модель',
     os.listdir(str_task4.cl_mod),
-    index=1,
+    index=None,
     format_func=lambda s: s.upper())
 
 @st.cache_data
