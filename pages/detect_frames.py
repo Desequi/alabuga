@@ -4,6 +4,7 @@ import str_task4
 import streamlit as st
 from ultralytics import YOLO
 from ultralytics.utils.plotting import Annotator
+from ultralytics.data.annotator import auto_annotate
 
 st.set_page_config(layout='wide', page_title='Алабуга - 4')
 st.header('Обнаружение на наборе изображений')
@@ -61,5 +62,17 @@ try:
     res, frame = cap.read()
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     st.image(frame)
+    st.suc
+    col1, col2 = st.columns(2)
+    # name_ann = col1.text_input('Введите путь до набора кадров', 'result/frames')
+    if col1.button("Разметить кадры"):
+
+
+        auto_annotate(data=cl,
+                      det_model=model,
+                      sam_model='mobile_sam.pt'
+                      )
+        col2.success('Кадры размечены')
+
 except:
     st.error('Файлы не найдены')
